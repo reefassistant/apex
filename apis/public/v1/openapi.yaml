@@ -1,0 +1,357 @@
+openapi: "3.0.0"
+info:
+  title: Apex Public API
+  version: 1.0.0
+  description: |
+    Public (unauthenticated) API to integrate with your local Apex aquarium controller (AOS 5 compatible).
+servers:
+  - url: http://apex.local
+    description: Default Apex Controller
+paths:
+  /cgi-bin/status.json:
+    get:
+      operationId: GetStatus
+      summary: Fetch system info and current input/output states.
+      responses:
+        "200":
+          description: Status output
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/statusResponse"
+  /cgi-bin/datalog.json:
+    get:
+      operationId: GetDatalog
+      summary: Fetch input log records.
+      parameters:
+        - in: query
+          name: sdate
+          schema:
+            type: string
+          description: Start date in YYMMDD format.
+        - in: query
+          name: days
+          schema:
+            type: integer
+          description: Number of days from start date.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/datalogResponse"
+  /cgi-bin/outlog.json:
+    get:
+      operationId: GetOutlog
+      summary: Fetch output log records.
+      parameters:
+        - in: query
+          name: sdate
+          schema:
+            type: string
+          description: Start date in YYMMDD format.
+        - in: query
+          name: days
+          schema:
+            type: integer
+          description: Number of days from start date.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/outlogResponse"
+components:
+  schemas:
+    statusResponse:
+      type: object
+      required:
+        - istat
+      properties:
+        istat:
+          $ref: "#/components/schemas/statusContainer"
+    statusContainer:
+      type: object
+      required:
+        - hostname
+        - software
+        - hardware
+        - serial
+        - type
+        - timezone
+        - date
+        - inputs
+        - outputs
+      properties:
+        hostname:
+          type: string
+          description: The (host) name of the APEX controller.
+        software:
+          type: string
+          description: Software version.
+        hardware:
+          type: string
+          description: Hardware version.
+        serial:
+          type: string
+          description: Serial number.
+        type:
+          type: string
+          description: Controller type.
+        extra:
+          $ref: "#/components/schemas/keyValuePairs"
+        timezone:
+          type: string
+          description: Time zone.
+        date:
+          type: integer
+          format: int64
+        feed:
+          $ref: "#/components/schemas/statusFeed"
+        power:
+          $ref: "#/components/schemas/statusPower"
+        inputs:
+          type: array
+          items:
+            $ref: "#/components/schemas/statusInput"
+        outputs:
+          type: array
+          items:
+            $ref: "#/components/schemas/statusOutput"
+        link:
+          $ref: "#/components/schemas/statusLink"
+    statusPower:
+      type: object
+      properties:
+        failed:
+          type: integer
+          format: int64
+        restored:
+          type: integer
+          format: int64
+    statusFeed:
+      type: object
+      required:
+        - name
+        - active
+      properties:
+        name:
+          description: Feed cycle (A=1, B=2, ...)
+          type: integer
+          format: int32
+        active:
+          description: seconds left for active feed cycle
+          type: integer
+          format: int32
+    statusLink:
+      type: object
+      required:
+        - linkState
+        - linkKey
+        - link
+      properties:
+        linkState:
+          type: integer
+          format: int32
+        linkKey:
+          type: string
+        link:
+          type: boolean
+    statusInput:
+      type: object
+      required:
+        - did
+        - name
+        - type
+        - value
+      properties:
+        did:
+          type: string
+          description: did
+        name:
+          type: string
+          description: Name
+        type:
+          type: string
+          description: Type
+        value:
+          type: number
+          format: float
+          description: Value
+    statusOutput:
+      type: object
+      required:
+        - status
+        - name
+        - gid
+        - type
+        - ID
+        - did
+      properties:
+        status:
+          type: array
+          description: status
+          items:
+            type: string
+        name:
+          type: string
+          description: name
+        gid:
+          type: string
+          description: gid
+        type:
+          type: string
+          description: type
+        ID:
+          type: number
+          description: ID
+        did:
+          type: string
+          description: did
+        intensity:
+          type: number
+          description: intensity (optional)
+    datalogResponse:
+      type: object
+      required:
+        - ilog
+      properties:
+        ilog:
+          $ref: "#/components/schemas/datalogContainer"
+    datalogContainer:
+      type: object
+      required:
+        - hostname
+        - software
+        - hardware
+        - serial
+        - type
+        - timezone
+        - record
+      properties:
+        hostname:
+          type: string
+          description: The (host) name of the APEX controller.
+        software:
+          type: string
+          description: Software version.
+        hardware:
+          type: string
+          description: Hardware version.
+        serial:
+          type: string
+          description: Serial number.
+        type:
+          type: string
+          description: Controller type.
+        extra:
+          $ref: "#/components/schemas/keyValuePairs"
+        timezone:
+          type: string
+          description: Time zone.
+        record:
+          type: array
+          items:
+           $ref: "#/components/schemas/datalogRecord"
+    datalogRecord:
+      type: object
+      required:
+        - date
+        - data
+      properties:
+        date:
+          type: integer
+          format: int64
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/datalogData"
+    datalogData:
+      type: object
+      required:
+        - name
+        - did
+        - type
+        - value
+      properties:
+        name:
+          type: string
+          description: name
+        did:
+          type: string
+          description: did
+        type:
+          type: string
+          description: type
+        value:
+          type: string
+          description: value
+    outlogResponse:
+      type: object
+      required:
+        - olog
+      properties:
+        olog:
+          $ref: "#/components/schemas/outlogContainer"
+    outlogContainer:
+      type: object
+      required:
+        - hostname
+        - software
+        - hardware
+        - serial
+        - type
+        - timezone
+        - record
+      properties:
+        hostname:
+          type: string
+          description: The (host) name of the APEX controller.
+        software:
+          type: string
+          description: Software version.
+        hardware:
+          type: string
+          description: Hardware version.
+        serial:
+          type: string
+          description: Serial number.
+        type:
+          type: string
+          description: Controller type.
+        extra:
+          $ref: "#/components/schemas/keyValuePairs"
+        timezone:
+          type: string
+          description: Time zone.
+        record:
+          type: array
+          items:
+            $ref: "#/components/schemas/outlogRecord"
+    outlogRecord:
+      type: object
+      required:
+        - date
+        - did
+        - name
+        - value
+      properties:
+        date:
+          type: integer
+          format: int64
+        did:
+          type: string
+          description: did
+        name:
+          type: string
+          description: name
+        value:
+          type: string
+          description: value
+    keyValuePairs:
+      type: object
+      description: Key/value pairs.
+      additionalProperties:
+        type: string

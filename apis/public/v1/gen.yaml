@@ -1,0 +1,3 @@
+"!include": gen-common.yaml
+inputSpec: apis/public/v1/openapi.yaml
+outputDir: client/public/v1

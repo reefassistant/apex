@@ -1,0 +1,18 @@
+generatorName: go
+enablePostProcessFile: true
+httpUserAgent: reefassistant.com/go-client
+skipFormModel: true
+strictSpec: true
+additionalProperties:
+  disallowAdditionalPropertiesIfNotPresent: true
+  enumClassPrefix: false
+  generateInterfaces: true
+  hideGenerationTimestamp: true
+  isGoSubmodule: true
+  packageName: v1
+  packageVersion: 1.0.0
+  prependFormOrBodyParameters: false
+  structPrefix: false
+  useOneOfDiscriminatorLookup: false
+  withAWSV4Signature: false
+  withXml: false
