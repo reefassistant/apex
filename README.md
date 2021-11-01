@@ -6,7 +6,7 @@ This package provides a Go API client to interface with your Neptune Apex aquari
 
 ## Documentation
 
-See [documentation](blob/main/docs/README.md) for more details.
+See [documentation](docs/README.md) for more details.
 
 ## Trademarks
 
