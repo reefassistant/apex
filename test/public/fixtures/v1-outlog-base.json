@@ -1,0 +1,27 @@
+{
+    "olog": {
+        "hostname": "the_Hostname",
+        "software": "the_Software",
+        "hardware": "the_Hardware",
+        "serial": "the_Serial",
+        "type": "the_Type",
+        "extra": {
+            "key1": "foo,bar"
+        },
+        "timezone": "the_Timezone",
+        "record": [
+            {
+                "date": 1635666329,
+                "did": "1_1",
+                "name": "OUTLET_FOO",
+                "value": "OFF"
+            },
+            {
+                "date": 1635666779,
+                "did": "2_1",
+                "name": "OUTLET_BAR",
+                "value": "ON"
+            }
+        ]
+    }
+}

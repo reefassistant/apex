@@ -1,0 +1,81 @@
+{
+    "istat": {
+        "hostname": "the_Hostname",
+        "software": "the_Software",
+        "hardware": "the_Hardware",
+        "serial": "the_Serial",
+        "type": "the_Type",
+        "extra": {
+            "key1": "foo,bar"
+        },
+        "timezone": "the_Timezone",
+        "date": 1635672222,
+        "feed": {
+            "name": 1,
+            "active": 2
+        },
+        "power": {
+            "failed": 1635155614,
+            "restored": 1635155697
+        },
+        "inputs": [
+            {
+                "did": "input1",
+                "type": "foo",
+                "name": "bar",
+                "value": 1.2345
+            },
+            {
+                "did": "INPUT_2",
+                "type": "Stuff",
+                "name": "More_STUFF",
+                "value": 0.0
+            },
+            {
+                "did": "3_P0",
+                "type": "foz",
+                "name": "baz",
+                "value": 0
+            },
+            {
+                "did": "4_P1",
+                "type": "fooz",
+                "name": "baaz",
+                "value": 123
+            }
+        ],
+        "outputs": [
+            {
+                "status": [
+                    "",
+                    "OK",
+                    "89.8",
+                    "0.05",
+                    "197",
+                    "-339"
+                ],
+                "name": "Name_I1",
+                "gid": "gid1",
+                "type": "type1",
+                "ID": 0,
+                "did": "did_1"
+            },
+            {
+                "status": [
+                    "FOO"
+                ],
+                "intensity": 27,
+                "name": "Name_I2",
+                "gid": "",
+                "type": "type2|stuff",
+                "ID": 1,
+                "did": "did_2"
+            }
+        ],
+        "link": {
+            "linkState": 5,
+            "linkKey": "S0meK3Y",
+            "link": true
+        }
+    }
+}

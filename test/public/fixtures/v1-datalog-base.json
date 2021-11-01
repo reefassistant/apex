@@ -1,0 +1,49 @@
+{
+    "ilog": {
+        "hostname": "the_Hostname",
+        "software": "the_Software",
+        "hardware": "the_Hardware",
+        "serial": "the_Serial",
+        "type": "the_Type",
+        "extra": {
+            "key1": "foo,bar"
+        },
+        "timezone": "the_Timezone",
+        "record": [
+            {
+                "date": 1635663600,
+                "data": [
+                    {
+                        "name": "Tmp",
+                        "did": "base_Temp",
+                        "type": "Temp",
+                        "value": "79.0"
+                    },
+                    {
+                        "name": "pH",
+                        "did": "base_pH",
+                        "type": "pH",
+                        "value": "8.23"
+                    }
+                ]
+            },
+            {
+                "date": 1635663660,
+                "data": [
+                    {
+                        "name": "Tmp",
+                        "did": "base_Temp",
+                        "type": "Temp",
+                        "value": "79.5"
+                    },
+                    {
+                        "name": "pH",
+                        "did": "base_pH",
+                        "type": "pH",
+                        "value": "8.25"
+                    }
+                ]
+            }
+        ]
+    }
+}
