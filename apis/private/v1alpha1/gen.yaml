@@ -1,6 +1,6 @@
 "!include": gen-common.yaml
-inputSpec: apis/public/v1/openapi.yaml
-outputDir: client/public/v1
+inputSpec: apis/private/v1alpha1/openapi.yaml
+outputDir: client/private/v1alpha1
 additionalProperties:
   disallowAdditionalPropertiesIfNotPresent: true
   enumClassPrefix: false
@@ -12,5 +12,5 @@ additionalProperties:
   useOneOfDiscriminatorLookup: false
   withAWSV4Signature: false
   withXml: false
-  packageName: v1
-  packageVersion: 1.0.0
+  packageName: v1alpha1
+  packageVersion: 1.0.0-alpha.1

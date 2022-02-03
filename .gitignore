@@ -1,1 +1,4 @@
 .openapi-generator/
+/tmp/
+/test/private/validate
+/test/private/validate
