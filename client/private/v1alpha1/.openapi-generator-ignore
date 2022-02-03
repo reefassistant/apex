@@ -1,0 +1,7 @@
+/.*
+/api/
+/.gitignore
+/.travis.yml
+/git_push.sh
+/go.mod
+/go.sum

@@ -1,1 +1,4 @@
 .openapi-generator/
+/tmp/
+/test/private/fixtures/validate
+/test/public/fixtures/validate
