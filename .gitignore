@@ -1,4 +1,4 @@
 .openapi-generator/
 /tmp/
-/test/private/fixtures/validate
-/test/public/fixtures/validate
+/test/private/validate
+/test/private/validate
