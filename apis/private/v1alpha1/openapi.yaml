@@ -1,0 +1,542 @@
+openapi: "3.0.0"
+info:
+  title: Apex Private API
+  version: 1.0.0-alpha.1
+  description: |
+    Private (authenticated) API to integrate with your local Apex aquarium controller (AOS 5 compatible).
+servers:
+  - url: http://apex.local
+    description: Default Apex Controller
+paths:
+  /rest/login:
+    post:
+      operationId: LoginUser
+      summary: User login and return authentication cookie.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/loginRequest"
+      responses:
+        "200":
+          description: OK
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: connect.sid=abcde12345
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/loginResponse"
+  /rest/user:
+    get:
+      operationId: GetUser
+      summary: Fetch user information.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getUserResponse"
+  /rest/config:
+    get:
+      operationId: GetConfig
+      summary: Fetch configuration.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getConfigResponse"
+  /rest/status:
+    get:
+      operationId: GetStatus
+      summary: Fetch status.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getStatusResponse"
+security:
+  - cookieAuth: []
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: connect.sid
+  schemas:
+    loginRequest:
+      type: object
+      required:
+        - login
+        - password
+        - remember_me
+      properties:
+        login:
+          type: string
+        password:
+          type: string
+        remember_me:
+          type: boolean
+    loginResponse:
+      type: object
+      required:
+        - connect.sid
+      properties:
+        connect.sid:
+          type: string
+    getUserResponse:
+      type: object
+      required:
+        - username
+      properties:
+        username:
+          type: string
+    getConfigResponse:
+      type: object
+      required:
+        - oconf
+        - pconf
+        - mconf
+        - dconf
+        - iconf
+        - nconf
+        - clock
+        - misc
+        - season
+        - cal
+      properties:
+        oconf:
+          type: array
+          items:
+            $ref: "#/components/schemas/outputConfig"
+        pconf:
+          type: array
+          items:
+            $ref: "#/components/schemas/profileConfig"
+        mconf:
+          type: array
+          items:
+            $ref: "#/components/schemas/moduleConfig"
+        dconf:
+          type: array
+          items:
+            $ref: "#/components/schemas/displayConfig"
+        iconf:
+          type: array
+          items:
+            $ref: "#/components/schemas/inputConfig"
+        nconf:
+          $ref: "#/components/schemas/networkConfig"
+        clock:
+          $ref: "#/components/schemas/clockConfig"
+        misc:
+          $ref: "#/components/schemas/miscellaneousConfig"
+        season:
+          $ref: "#/components/schemas/seasonConfig"
+        cal:
+          $ref: "#/components/schemas/calibrationConfig"
+    outputConfig:
+      type: object
+      required:
+        - name
+        - icon
+        - ctype
+        - log
+        - type
+        - did
+        - gid
+        - gtype
+        - ID
+        - prog
+        - extra
+      properties:
+        name:
+          type: string
+        icon:
+          type: string
+        ctype:
+          type: string
+        log:
+          type: boolean
+        type:
+          type: string
+        did:
+          type: string
+        gid:
+          type: string
+        gtype:
+          type: string
+        ID:
+          type: string
+        prog:
+          type: string
+        extra:
+          type: object
+          additionalProperties: true
+    profileConfig:
+      type: object
+      required:
+        - name
+        - ID
+        - type
+        - data
+      properties:
+        name:
+          type: string
+        ID:
+          type: number
+        type:
+          type: string
+        data:
+          type: object
+          additionalProperties: true
+    moduleConfig:
+      type: object
+      required:
+        - abaddr
+        - name
+        - hwtype
+        - update
+        - updateStat
+        - extra
+      properties:
+        abaddr:
+          type: number
+        name:
+          type: string
+        hwtype:
+          type: string
+        update:
+          type: boolean
+        updateStat:
+          type: number
+        extra:
+          type: object
+          additionalProperties: true
+    displayConfig:
+      type: object
+      required:
+        - page
+        - lineEnables
+        - probes
+        - outputs
+      properties:
+        page:
+          type: number
+        lineEnables:
+          type: array
+          items:
+            type: boolean
+        probes:
+          type: array
+          items:
+            type: string
+        outpus:
+          type: array
+          items:
+            type: string
+    inputConfig:
+      type: object
+      required:
+        - did
+        - enable
+        - type
+        - name
+        - alarm
+        - extra
+      properties:
+        did:
+          type: string
+        enable:
+          type: boolean
+        type:
+          type: string
+        name:
+          type: string
+        alarm:
+          $ref: "#/components/schemas/keyFloatPairs"
+        extra:
+          type: object
+          additionalProperties: true
+    networkConfig:
+      type: object
+      required:
+        - dhcp
+        - hostname
+        - ipaddr
+        - netmask
+        - gateway
+        - dns
+        - httpPort
+        - user
+        - password
+        - defaultAuth
+        - fusionEnable
+        - wifiAPLock
+        - wifiEnable
+        - ssid
+        - wifiAP
+        - emailEnable
+        - smtpPort
+        - smtpServer
+        - emailFrom
+        - emailTo
+        - reEmail
+        - emailAuth
+        - emailUser
+        - emailPassword
+        - updateFirmware
+        - latestFirmware
+      properties:
+        dhcp:
+          type: boolean
+        hostname:
+          type: string
+        ipaddr:
+          type: string
+        netmask:
+          type: string
+        gateway:
+          type: string
+        dns:
+          type: array
+          items:
+            type: string
+        httpPort:
+          type: number
+        user:
+          type: string
+        password: # oh boy ...
+          type: string
+        defaultAuth:
+          type: boolean
+        fusionEnable:
+          type: boolean
+        wifiAPLock:
+          type: boolean
+        wifiEnable:
+          type: boolean
+        ssid:
+          type: string
+        wifiAP:
+          type: boolean
+        emailEnable:
+          type: boolean
+        smtpPort:
+          type: number
+        smtpServer:
+          type: string
+        emailFrom:
+          type: string
+        emailTo:
+          type: string
+        reEmail:
+          type: number
+        emailAuth:
+          type: boolean
+        emailUser:
+          type: string
+        emailPassword:
+          type: string
+        updateFirmware:
+          type: boolean
+        latestFirmware:
+          type: string
+    clockConfig:
+      type: object
+      required:
+        - timezone
+        - date
+        - dst
+        - auto
+      properties:
+        timezone:
+          type: array
+          items:
+            type: string
+        date:
+          type: integer
+          format: int64
+        dst:
+          type: boolean
+        auto:
+          type: boolean
+    miscellaneousConfig:
+      type: object
+      required:
+        - reboot
+        - almSound
+        - wrnSound
+        - logInterval
+        - feedInterval
+        - pwrMon
+      properties:
+        reboot:
+          type: boolean
+        almSound:
+          type: string
+        wrnSound:
+          type: string
+        logInterval:
+          type: number
+        feedInterval:
+          type: array
+          items:
+            type: number
+        pwrMon:
+          type: boolean
+    seasonConfig:
+      type: object
+      required:
+        - temp
+        - newmoon
+        - moonrise
+        - moonset
+        - sunrise
+        - sunset
+      properties:
+        temp:
+          type: array
+          items:
+            type: number
+            format: float
+        newmoon:
+          type: array
+          items:
+            type: number
+        moonrise:
+          type: array
+          items:
+            type: string
+        moonset:
+          type: array
+          items:
+            type: string
+        sunrise:
+          type: array
+          items:
+            type: string
+        sunset:
+          type: array
+          items:
+            type: string
+    calibrationConfig:
+      type: object
+      required:
+        - did
+        - value
+        - state
+      properties:
+        did:
+          type: string
+        value:
+          type: number
+        state:
+          type: number
+    getStatusResponse:
+      type: object
+      required:
+        - system
+        - modules
+        - nstat
+        - feed
+        - power
+        - outputs
+        - inputs
+        - link
+      properties:
+        system:
+          $ref: "#/components/schemas/systemStatus"
+        modules:
+          type: array
+          items:
+            $ref: "#/components/schemas/moduleStatus"
+        nstat:
+          $ref: "#/components/schemas/networkStatus"
+        feed:
+          $ref: "#/components/schemas/feedStatus"
+        power:
+          $ref: "#/components/schemas/powerStatus"
+        outputs:
+          type: array
+          items:
+            $ref: "#/components/schemas/outputStatus"
+        inputs:
+          type: array
+          items:
+            $ref: "#/components/schemas/inputStatus"
+        link:
+          $ref: "#/components/schemas/linkStatus"
+    systemStatus:
+      type: object
+      required:
+        - hostname
+        - software
+        - hardware
+        - serial
+        - type
+        - extra
+        - timezone
+        - date
+      properties:
+        hostname:
+          type: string
+        software:
+          type: string
+        hardware:
+          type: string
+        serial:
+          type: string
+        type:
+          type: string
+        extra:
+          type: object
+          additionalProperties: true
+        timezone:
+          type: string
+        date:
+          type: integer
+          format: int64
+    moduleStatus:
+      type: object
+      required: []
+      properties: {}
+    networkStatus:
+      type: object
+      required: []
+      properties: {}
+    feedStatus:
+      type: object
+      required: []
+      properties: {}
+    powerStatus:
+      type: object
+      required: []
+      properties: {}
+    outputStatus:
+      type: object
+      required: []
+      properties: {}
+    inputStatus:
+      type: object
+      required: []
+      properties: {}
+    linkStatus:
+      type: object
+      required: []
+      properties: {}
+    keyFloatPairs:
+      type: object
+      description: Key/float pairs.
+      additionalProperties:
+        type: number
+        format: float
